@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>Get driving. - Donkey Car</title>
+  <title>Virtual Race League. - Donkey Car</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -19,8 +19,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Get driving.";
-    var mkdocs_page_input_path = "guide/get_driving.md";
+    var mkdocs_page_name = "Virtual Race League.";
+    var mkdocs_page_input_path = "guide/virtual_race_league.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -72,37 +72,23 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../calibrate/">Calibrate steering and throttle.</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Get driving.</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#start-your-car">Start your car</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#driving-with-web-controller">Driving with Web Controller</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#features">Features</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#keyboard-shortcuts">Keyboard shortcuts</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#driving-with-physical-joystick-controller">Driving with Physical Joystick Controller</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#setup-bluetooth-and-pair-joystick">Setup Bluetooth and pair joystick</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#start-car">Start car</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#joystick-controls">Joystick Controls</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#next-lets-train-an-autopilot">Next let's train an autopilot.</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../get_driving/">Get driving.</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../train_autopilot/">Train an autopilot.</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../simulator/">Donkey Simulator.</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../virtual_race_league/">Virtual Race League.</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Virtual Race League.</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#about-the-sim-server">About the Sim server</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setup-for-donkeycar-users">Setup for Donkeycar users</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#setup-for-non-donkeycar-users">Setup for Non-Donkeycar users</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting Help</a>
+    </li>
+    </ul>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Parts</span></p>
@@ -182,10 +168,10 @@
         
       
     
-    <li>Get driving.</li>
+    <li>Virtual Race League.</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/autorope/donkeycar/edit/master/docs/guide/get_driving.md"
+        <a href="https://github.com/autorope/donkeycar/edit/master/docs/guide/virtual_race_league.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -196,81 +182,64 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="drive-your-car">Drive your car</h1>
-<p>After you've <a href="/guide/calibrate">calibrated</a> your car you can start driving it. </p>
-<p>If you are not already, please <a href="/guide/robot_sbc/setup_raspberry_pi/#step-5-connecting-to-the-pi">ssh into your vehicle</a>.</p>
-<h2 id="start-your-car">Start your car</h2>
-<blockquote>
-<p><strong><em> Put your car in a safe place where the wheels are off the ground </em></strong>.</p>
-</blockquote>
-<p>This is the step were the car can take off. </p>
-<p>Open your car's folder and start your car. </p>
-<pre><code>cd ~/mycar
-python manage.py drive
+                <h1 id="virtual-race-league">Virtual Race League</h1>
+<p>We've taken the next step in DIY Robocars competitions. We are now hosting special events online! We welcome competitors from all over the world. Events will be scheduled by Chris Anderson and the Donkeycar maintainers. But this is by no means donkeycar only. Please read on, and we will provide two paths depending on whether you decide to use the donkeycar framework to race.</p>
+<p><img alt="race_previe" src="../../assets/virtual_race_league.jpg" /> </p>
+<p>We will be broadcasting the race stream over Twitch. Check the event annoucement for the url. Race comepetitors will join a group Zoom chat event. Tawn will host the race server and share the stream over Zoom/Twitch. And we will see how things go.</p>
+<h2 id="about-the-sim-server">About the Sim server</h2>
+<p>We are using the <a href="https://github.com/tawnkramer/sdsandbox">SDSandbox</a> open source project as the racing sim. This creates a 3d environment using <a href="https://unity.com/">Unity</a> game creation tool. It uses <a href="https://developer.nvidia.com/physx-sdk">NVidia PhysX</a> open source physics engine to simulate 4 wheeled vehicle dynamics. This sim also acts as a server, listening on TCP port 9091. This sends and receives JSON packets. More on the API later.</p>
+<p>We use an OpenAI GYM style wrapper to interface with the server. The project for this wrapper is <a href="https://github.com/tawnkramer/gym-donkeycar">gym-donkeycar</a>.</p>
+<p>You may build the server from the source project above, but <a href="https://github.com/tawnkramer/gym-donkeycar/releases/tag/v2020.4">pre-built binaries</a> for Ubuntu, Mac, and Windows. This has been tested on Ubuntu 18.04, Mac 10.13, and Windows 10.</p>
+<h2 id="setup-for-donkeycar-users">Setup for Donkeycar users</h2>
+<p>If you are using the donkeycar framework to race, you can use follow the guide to <a href="/guide/simulator/">setup the simulator</a>. Use this to practice before the race. When it comes time to race, modify your myconfig.py to have these two changes:</p>
+<pre><code>DONKEY_SIM_PATH = &quot;remote&quot;
+SIM_HOST = &quot;trainmydonkey.com&quot;
 </code></pre>
 
-<p>This script will start the drive loop in your car which includes a part that 
-is a web server for you to control your car. You can now control your car
-from a web browser at the URL: <code>&lt;your car's hostname.local&gt;:8887</code></p>
-<p><img alt="drive UI" src="../../assets/drive_UI.png" /></p>
-<h2 id="driving-with-web-controller">Driving with Web Controller</h2>
-<p>On your phone you can now press start to set your phones current tilt to be
-zero throttle and steering. Now tilting your phone forward will increase throttle and tilting it side to side will turn the steering. </p>
-<h3 id="features">Features</h3>
+<p>This racing server will not always be running. We will bring it up for testing events and on race day.</p>
+<h2 id="setup-for-non-donkeycar-users">Setup for Non-Donkeycar users</h2>
+<p>If you would like to roll your own client, we have some python code to get you started. </p>
 <ul>
-<li>Recording - Press record data to start recording images, steering angels and throttle values. </li>
-<li>Throttle mode - Option to set the throttle as constant. This is used in 
-races if you have a pilot that will steer but doesn't control throttle. </li>
-<li>Pilot mode - Choose this if the pilot should control the angle and/or throttle.</li>
-<li>Max throttle - Select the maximum throttle.</li>
+<li>
+<p>You will first want to download the sim <a href="https://github.com/tawnkramer/gym-donkeycar/releases/tag/v2020.4">pre-built binary</a> for your platform. Extract that where you like.</p>
+</li>
+<li>
+<p>Then clone the gym-donkeycar python project and install. If you are using a virtual environment, don't forget to activate it first. </p>
+</li>
 </ul>
-<h3 id="keyboard-shortcuts">Keyboard shortcuts</h3>
-<ul>
-<li><code>space</code> : stop car and stop recording</li>
-<li><code>r</code> : toggle recording</li>
-<li><code>i</code> : increase throttle</li>
-<li><code>k</code> : decrease throttle</li>
-<li><code>j</code> : turn left </li>
-<li><code>l</code> : turn right </li>
-</ul>
-<hr />
-<p>If you don't have a joystick then you can skip to next section - <a href="/guide/train_autopilot/">train an autopilot</a>.</p>
-<hr />
-<h2 id="driving-with-physical-joystick-controller">Driving with Physical Joystick Controller</h2>
-<p>You may find that it helps to use a physical joystick device to control your vehicle.</p>
-<h3 id="setup-bluetooth-and-pair-joystick">Setup Bluetooth and pair joystick</h3>
-<p>Check the <a href="/parts/controllers/#physical-joystick-controller">Controllers</a> section to read about setting up the bluetooth connection.</p>
-<h3 id="start-car">Start car</h3>
-<pre><code class="bash">cd ~/mycar
-python manage.py drive --js
+<pre><code class="bash">git clone https://github.com/tawnkramer/gym-donkeycar
+pip install -e gym-donkeycar
 </code></pre>
 
-<p>Optionally, if you want joystick use to be sticky and don't want to add the --js each time, modify your <strong>myconfig.py</strong> so that <strong>USE_JOYSTICK_AS_DEFAULT = True</strong></p>
-<pre><code class="bash">nano myconfig.py
+<ul>
+<li>get the test client. Download via wget on Mac or Linux like:</li>
+</ul>
+<pre><code>wget https://raw.githubusercontent.com/tawnkramer/sdsandbox/master/src/test_client.py
 </code></pre>
 
-<h3 id="joystick-controls">Joystick Controls</h3>
 <ul>
-<li>Left analog stick - Left and right to adjust steering</li>
-<li>Right analog stick - Forward to increase forward throttle</li>
-<li>Pull back twice on right analog to reverse</li>
+<li>or on Windows open a browser to <a href="https://github.com/tawnkramer/sdsandbox/tree/master/src">https://github.com/tawnkramer/sdsandbox/tree/master/src</a></li>
+<li>
+<p>then right click on test_client.py and choose "Save link as..." and choose a location on your PC.</p>
+</li>
+<li>
+<p>start up the simulator and let it get to the menu screen. </p>
+</li>
+<li>run the test client like </li>
 </ul>
-<blockquote>
-<p>Whenever the throttle is not zero, driving data will be recorded - as long as you are in User mode!</p>
-</blockquote>
-<ul>
-<li>Select button switches modes - "User, Local Angle, Local(angle and throttle)"</li>
-<li>Triangle - Increase max throttle</li>
-<li>X  - Decrease max throttle</li>
-<li>Circle - Toggle recording (disabled by default. auto record on throttle is enabled by default)</li>
-<li>dpad up - Increase throttle scale</li>
-<li>dpad down - Decrease throttle scale</li>
-<li>dpad left - Increase steering scale</li>
-<li>dpad right - Decrease steering scale</li>
-<li>Start - Toggle constant throttle. Sets to max throttle (modified by X and Triangle).</li>
-</ul>
-<hr />
-<h3 id="next-lets-train-an-autopilot">Next let's <a href="/guide/train_autopilot/">train an autopilot</a>.</h3>
+<p><code>python3 test_client.py</code></p>
+<p>Checkout test_client.py to see what's going there. Class SimpleClient connects to the host of your choosing. Then it sends a load scene command depending on which course you want to try. It then sends some car visual configuration, and then some camera config information. Then it enters an update loop.</p>
+<p>You can try changing the num_clients variable to 2 or more clients. See how the sim can handle them.</p>
+<p>The test client will send random steering command for time_to_drive = 1.0 seconds. Then quit.</p>
+<p>During that time, the telemetry messages will come into SimpleClient::on_msg_recv. See them printed out for you. Also take a look at the 'test.png' that it writes to get a feel for what the camera looks like.</p>
+<p>There's some comments in there explaining the camera configuration in detail. If you have a custom camera setup, hopefully we can come close to matching it with these controls.</p>
+<p>When it's time to race, change the variable:</p>
+<pre><code>host = &quot;trainmydonkey.com&quot;
+</code></pre>
+
+<p>Be sure to enable controls to start the car on your command. We will likely be old school calling 3, 2, 1, GO! over video chat.</p>
+<h2 id="getting-help">Getting Help</h2>
+<p>There's a lot to learn. And come to <a href="https://discord.gg/JGQUU8w">Discord</a> to get some help. Check out the #virtual-racing-league channel there.</p>
               
             </div>
           </div>
@@ -278,10 +247,10 @@ python manage.py drive --js
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../train_autopilot/" class="btn btn-neutral float-right" title="Train an autopilot.">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../parts/about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../calibrate/" class="btn btn-neutral" title="Calibrate steering and throttle."><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../simulator/" class="btn btn-neutral" title="Donkey Simulator."><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -309,10 +278,10 @@ python manage.py drive --js
           <a href="https://github.com/autorope/donkeycar/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../calibrate/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../simulator/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../train_autopilot/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../../parts/about/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

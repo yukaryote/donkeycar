@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>IMU - Donkey Car</title>
+  <title>Voice Control - Donkey Car</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -19,8 +19,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "IMU";
-    var mkdocs_page_input_path = "parts/imu.md";
+    var mkdocs_page_name = "Voice Control";
+    var mkdocs_page_input_path = "parts/voice_control.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -91,23 +91,39 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../stores/">Stores</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">IMU</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#mpu6050mpu9250">MPU6050/MPU9250</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#software-setup">Software Setup</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#notes-on-mpu9250">Notes on MPU9250</a>
-    </li>
-        </ul>
-    </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../imu/">IMU</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../oled/">OLED</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../voice_control/">Voice Control</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Voice Control</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#demo">Demo</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#command-supported">Command Supported</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#get-started">Get Started</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#commands">Commands</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#autopilot">Autopilot</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#slowdown-speedup">Slowdown / Speedup</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stopmanual">Stop/Manual</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#report-device-code">Report device code</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#backend">Backend</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#copyright">Copyright</a>
+    </li>
+    </ul>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Utilities</span></p>
@@ -168,10 +184,10 @@
         
       
     
-    <li>IMU</li>
+    <li>Voice Control</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/autorope/donkeycar/edit/master/docs/parts/imu.md"
+        <a href="https://github.com/autorope/donkeycar/edit/master/docs/parts/voice_control.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -182,66 +198,75 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="imu">IMU</h1>
-<p>IMUs or inertial measurement units are parts that sense the inertial forces on a robot. They vary depending on sensor, but may commonly include linear and rotational accelleration. They may sometimes include magnetometer to give global compasss facing dir. Frequently temperature is available from these as it affects their sensitivity.</p>
-<h2 id="mpu6050mpu9250">MPU6050/MPU9250</h2>
-<p>This is a cheap, small, and moderately precise imu. Commonly available at <a href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dindustrial&amp;field-keywords=MPU6050">Amazon</a>.</p>
-<p>MPU9250 offers additional integrated magnetometer.</p>
+                <h1 id="alexa-support">Alexa Support</h1>
+<h2 id="overview">Overview</h2>
+<p>This part works together with a public Alexa skill that we have released. When
+you say a command, the Alexa skill will forward this command to a server hosted
+by us to temporarily store it. Your donkey car, installed with this part and
+with proper configuration, poll our server for any new command from Alexa.</p>
+<p><img alt="Overview" src="../../assets/parts/voice_control/alexa_overview.png" /></p>
+<h2 id="demo">Demo</h2>
+<p>Click the image below to open the video on youtube</p>
+<p><a href="https://www.youtube.com/watch?v=Q3kYmy0yjmc"><img alt="Demo" src="https://img.youtube.com/vi/Q3kYmy0yjmc/0.jpg" /></a></p>
+<h2 id="command-supported">Command Supported</h2>
 <ul>
-<li>Typically uses the I2C interface and can be chained off the default PWM PCA9685 board. This configuration will also provide power.</li>
-<li>MPU6050: Outputs acceleration X, Y, Z, Gyroscope X, Y, Z, and temperature.</li>
-<li>MPU6250: Outputs acceleration X, Y, Z, Gyroscope X, Y, Z, Magnetometer X, Y, Z and temperature.</li>
-<li>Chip built-in 16bit AD converter, 16bit data output</li>
-<li>Gyroscopes range: +/- 250 500 1000 2000 degree/sec</li>
-<li>Acceleration range: ±2 ±4 ±8 ±16g</li>
+<li>Report device code</li>
+<li>autopilot</li>
+<li>slowdown</li>
+<li>speedup</li>
+<li>stop/manual</li>
 </ul>
-<h3 id="software-setup">Software Setup</h3>
-<p>Install smbus:</p>
-<p>from package:</p>
-<pre><code class="bash"> sudo apt install python3-smbus
+<h2 id="get-started">Get Started</h2>
+<ol>
+<li>Use your <code>Alexa app</code>, navigate to Skills and Games</li>
+<li>Search for "Donkey Car Control"</li>
+<li>Enable the Skill</li>
+<li>Say "Open car control and report device code". Use a pencil to write down the
+   device code.</li>
+<li>Follow the instructions below to install the part in donkey car software
+   running on Pi</li>
+</ol>
+<h2 id="installation">Installation</h2>
+<p>To install this part, add the following lines to <code>manage.py</code>, right after the
+<code>controller</code> setup. In manage.py:</p>
+<pre><code class="python">
+if cfg.USE_ALEXA_CONTROL:
+  from donkeycar.parts.voice_control.alexa import AlexaController
+  V.add(AlexaController(ctr, cfg), threaded=True)
 </code></pre>
 
-<p>or from source:</p>
-<pre><code class="bash">sudo apt-get install i2c-tools libi2c-dev python-dev python3-dev
-git clone https://github.com/pimoroni/py-smbus.git
-cd py-smbus/library
-python setup.py build
-sudo python setup.py install
+<p>In myconfig.py, add the following parameters:</p>
+<pre><code class="python">USE_ALEXA_CONTROL = True
+ALEXA_DEVICE_CODE = &quot;123456&quot;
 </code></pre>
 
-<p>For MPU6050: </p>
-<p>Install pip lib for <code>mpu6050</code>:</p>
-<pre><code class="bash">pip install mpu6050-raspberrypi
-</code></pre>
-
-<p>For MPU9250: </p>
-<p>Install pip lib for <code>mpu9250-jmdev</code>:</p>
-<pre><code class="bash">pip install mpu9250-jmdev
-</code></pre>
-
-<h3 id="configuration">Configuration</h3>
-<p>Enable the following configurations to your <code>myconfig.py</code>:</p>
-<pre><code class="python">#IMU
-HAVE_IMU = True
-IMU_SENSOR = 'mpu9250'          # (mpu6050|mpu9250)
-IMU_DLP_CONFIG = 3
-</code></pre>
-
-<p><code>IMU_SENSOR</code> can be either <code>mpu6050</code> or <code>mpu9250</code> based on the sensor you are using.</p>
-<p><code>IMU_DLP_CONFIG</code> allows to change the digital lowpass filter settings for your IMU. Lower frequency settings (see below) can filter high frequency noise at the expense of increased latency in IMU sensor data.
-Valid settings are from 0 to 6:</p>
-<ul>
-<li><code>0</code> 250Hz</li>
-<li><code>1</code> 184Hz</li>
-<li><code>2</code> 92Hz</li>
-<li><code>3</code> 41Hz</li>
-<li><code>4</code> 20Hz </li>
-<li><code>5</code> 10Hz</li>
-<li><code>6</code> 5Hz</li>
-</ul>
-<h3 id="notes-on-mpu9250">Notes on MPU9250</h3>
-<p>At startup the MPU9250 driver performs calibration to zero accel and gyro bias. Usually the process takes less than 10 seconds, and in that time avoid moving or touching the car.
-Please place the car on the ground before starting Donkey.</p>
+<h2 id="commands">Commands</h2>
+<h3 id="autopilot">Autopilot</h3>
+<p><code>Phrases: autopilot, start autopilot</code></p>
+<p>If you use this command, it is expected that the donkey car is started with a
+model. This command will set the variable <code>mode</code> of the controller to <code>local</code>.</p>
+<h3 id="slowdown-speedup">Slowdown / Speedup</h3>
+<p><code>Phrases: slow down, speed up, go faster, go slower</code></p>
+<p>This command alters the <code>cfg.AI_THROTTLE_MULT</code> variable passed from the
+constructor. Each time this command is received, the <code>AI_THROTTLE_MULT</code> is
+increased/decreased by 0.05.</p>
+<p>Note: Since this command alters <code>AI_THROTTLE_MULT</code>, it won't speed up when you
+are running in <code>user</code> or <code>local_angle</code> mode.</p>
+<h3 id="stopmanual">Stop/Manual</h3>
+<p><code>Phrases: human control, user mode, stop autopilot, manual</code></p>
+<p>This command will set the variable <code>mode</code> of the controller to <code>user</code></p>
+<h3 id="report-device-code">Report device code</h3>
+<p><code>Phrases: report device code, what is your device code, device code</code></p>
+<p>Device code is a 6-digit numeric string derived by a hash function from your
+Alexa device ID. In order to distinguish commands from multiple Alexa devices,
+commands sent to our server would require an identifier, which is the device code.
+When donkey car poll for new command, the part will use this device code to poll
+for new commands.</p>
+<h2 id="backend">Backend</h2>
+<p>Check here for our web service source code, it is open source too.</p>
+<p><a href="https://github.com/robocarstore/donkeycar-alexa-backend">https://github.com/robocarstore/donkeycar-alexa-backend</a></p>
+<h2 id="copyright">Copyright</h2>
+<p>Copyright (c) 2020 <a href="https://robocarstore.com">Robocar Ltd</a></p>
               
             </div>
           </div>
@@ -249,10 +274,10 @@ Please place the car on the ground before starting Donkey.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../oled/" class="btn btn-neutral float-right" title="OLED">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../utility/donkey/" class="btn btn-neutral float-right" title="donkey">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../stores/" class="btn btn-neutral" title="Stores"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../oled/" class="btn btn-neutral" title="OLED"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -280,10 +305,10 @@ Please place the car on the ground before starting Donkey.</p>
           <a href="https://github.com/autorope/donkeycar/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../stores/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../oled/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../oled/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../../utility/donkey/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

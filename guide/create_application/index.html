@@ -80,6 +80,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#sombrero-setup">Sombrero Setup</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#robo-hat-mm1-setup">Robo HAT MM1 Setup</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#joystick-setup">Joystick setup</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#camera-setup">Camera Setup</a>
@@ -116,6 +118,10 @@
                     <li class="toctree-l1"><a class="reference internal" href="../../parts/stores/">Stores</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../../parts/imu/">IMU</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../parts/oled/">OLED</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../parts/voice_control/">Voice Control</a>
                     </li>
                 </ul>
                 <p class="caption"><span class="caption-text">Utilities</span></p>
@@ -247,6 +253,26 @@ sudo i2cdetect -y 1
 <p><strong>Jetson Nano</strong>: set <code>PCA9685_I2C_BUSNUM = 1</code> in your <strong>myconfig.py</strong> . For the pi, this will be auto detected by the Adafruit library. But not on the Jetson Nano.</p>
 <h2 id="sombrero-setup">Sombrero Setup</h2>
 <p>Set <code>HAVE_SOMBRERO = True</code> in your <strong>myconfig.py</strong> if you have a sombrero board.</p>
+<h2 id="robo-hat-mm1-setup">Robo HAT MM1 Setup</h2>
+<p>Set <code>HAVE_ROBOHAT = True</code> in your <strong>myconfig.py</strong> if you have a Robo HAT MM1 board.</p>
+<p>The Robo HAT MM1 uses a RC Controller and CircuitPython script to drive the car during training. You must put the CircuitPython script onto the Robo HAT MM1 with your computer before you can continue.</p>
+<ol>
+<li>Download the CircuitPython Donkey Car Driver for Robo HAT MM1 to your computer from <a href="https://github.com/robotics-masters/mm1-hat-cpy-native/blob/master/examples/rc-cpy-final.py">here</a></li>
+<li>Connect the MicroUSB connector on the Robo HAT MM1 to your computer's USB port.</li>
+<li>A <strong>CIRCUITPY</strong> device should appear on the computer as a USB Storage Device</li>
+<li>Copy the file downloaded in Step 1 to the <strong>CIRCUITPY</strong> USB Storage Device.  Rename the file <strong>code.py</strong>.</li>
+<li>Unplug USB Cable from the Robo HAT MM1 and place on top of the Raspberry Pi, as you would any HAT.</li>
+</ol>
+<p>You may need to enable the hardware serial port on your Raspberry Pi.  On your Raspberry Pi...</p>
+<ol>
+<li>Run the command <code>sudo raspi-config</code></li>
+<li>Navigate to the <strong>5 - Interfaceing options</strong> section.</li>
+<li>Navigate to the <strong>P6 - Serial</strong> section.</li>
+<li>When asked: <strong>Would you like a login shell to be accessible over serial?</strong>  NO</li>
+<li>When asked: <strong>Would you like the serial port hardware to be enabled?</strong> YES</li>
+<li>Close raspi-config</li>
+<li>Restart</li>
+</ol>
 <h2 id="joystick-setup">Joystick setup</h2>
 <p>If you plan to use a joystick, take a side track over to <a href="/parts/controllers/#joystick-controller">here</a>.</p>
 <h2 id="camera-setup">Camera Setup</h2>

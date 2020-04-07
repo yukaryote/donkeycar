@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../../img/favicon.ico">
-  <title>IMU - Donkey Car</title>
+  <title>OLED - Donkey Car</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../../css/theme.css" />
@@ -19,8 +19,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "IMU";
-    var mkdocs_page_input_path = "parts/imu.md";
+    var mkdocs_page_name = "OLED";
+    var mkdocs_page_input_path = "parts/oled.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -91,21 +91,19 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../stores/">Stores</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">IMU</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../imu/">IMU</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">OLED</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#mpu6050mpu9250">MPU6050/MPU9250</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#software-setup">Software Setup</a>
+    <li class="toctree-l2"><a class="reference internal" href="#supported-displays">Supported displays</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a>
+    <li class="toctree-l2"><a class="reference internal" href="#hardware-setup">Hardware Setup</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#notes-on-mpu9250">Notes on MPU9250</a>
+    <li class="toctree-l2"><a class="reference internal" href="#software-setup">Software Setup</a>
     </li>
-        </ul>
+    <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
     </li>
     </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../oled/">OLED</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../voice_control/">Voice Control</a>
                     </li>
@@ -168,10 +166,10 @@
         
       
     
-    <li>IMU</li>
+    <li>OLED</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/autorope/donkeycar/edit/master/docs/parts/imu.md"
+        <a href="https://github.com/autorope/donkeycar/edit/master/docs/parts/oled.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -182,66 +180,30 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="imu">IMU</h1>
-<p>IMUs or inertial measurement units are parts that sense the inertial forces on a robot. They vary depending on sensor, but may commonly include linear and rotational accelleration. They may sometimes include magnetometer to give global compasss facing dir. Frequently temperature is available from these as it affects their sensitivity.</p>
-<h2 id="mpu6050mpu9250">MPU6050/MPU9250</h2>
-<p>This is a cheap, small, and moderately precise imu. Commonly available at <a href="https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Dindustrial&amp;field-keywords=MPU6050">Amazon</a>.</p>
-<p>MPU9250 offers additional integrated magnetometer.</p>
+                <h1 id="oled-displays">OLED Displays</h1>
+<p>OLED displays can be used to show information about the current state of the car. This is especially useful in the when collecting data for training, and when racing. </p>
+<p>The OLED display currently displays the following information:
+* The IP address of the car (<code>eth</code> and <code>wlan</code>)
+* The number of records collected, for training.
+* The driving mode.</p>
+<h2 id="supported-displays">Supported displays</h2>
+<p>Examples of displays that are currently supported are:</p>
 <ul>
-<li>Typically uses the I2C interface and can be chained off the default PWM PCA9685 board. This configuration will also provide power.</li>
-<li>MPU6050: Outputs acceleration X, Y, Z, Gyroscope X, Y, Z, and temperature.</li>
-<li>MPU6250: Outputs acceleration X, Y, Z, Gyroscope X, Y, Z, Magnetometer X, Y, Z and temperature.</li>
-<li>Chip built-in 16bit AD converter, 16bit data output</li>
-<li>Gyroscopes range: +/- 250 500 1000 2000 degree/sec</li>
-<li>Acceleration range: ±2 ±4 ±8 ±16g</li>
+<li><a href="https://www.adafruit.com/product/3527">Adafruit PiOLED - 128X32 MonoChrome OLED</a></li>
 </ul>
-<h3 id="software-setup">Software Setup</h3>
-<p>Install smbus:</p>
-<p>from package:</p>
-<pre><code class="bash"> sudo apt install python3-smbus
+<h2 id="hardware-setup">Hardware Setup</h2>
+<p>Simply connect the display to the I2C pins on the Raspberry Pi or the Jetson Nano. Use <code>bus 1</code> so the display can be inserted directly on the pins. <a href="https://cdn-shop.adafruit.com/1200x900/3527-04.jpg">Here</a> is an example of what that looks like.</p>
+<h2 id="software-setup">Software Setup</h2>
+<p>Enable the display in <code>myconfig.py</code>.</p>
+<pre><code class="python"># SSD1306_128_32
+USE_SSD1306_128_32 = True     # Enable the SSD_1306 OLED Display
+SSD1306_128_32_I2C_BUSNUM = 1 # I2C bus number
 </code></pre>
 
-<p>or from source:</p>
-<pre><code class="bash">sudo apt-get install i2c-tools libi2c-dev python-dev python3-dev
-git clone https://github.com/pimoroni/py-smbus.git
-cd py-smbus/library
-python setup.py build
-sudo python setup.py install
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If you are unable to start the car, ensure that the <code>Adafruit_SSD1306</code> package is installed in your virtual environment. This should automatically be installed, if you are using a recent version of <code>donkeycar</code>.</p>
+<pre><code class="bash">pip install Adafruit_SSD1306
 </code></pre>
-
-<p>For MPU6050: </p>
-<p>Install pip lib for <code>mpu6050</code>:</p>
-<pre><code class="bash">pip install mpu6050-raspberrypi
-</code></pre>
-
-<p>For MPU9250: </p>
-<p>Install pip lib for <code>mpu9250-jmdev</code>:</p>
-<pre><code class="bash">pip install mpu9250-jmdev
-</code></pre>
-
-<h3 id="configuration">Configuration</h3>
-<p>Enable the following configurations to your <code>myconfig.py</code>:</p>
-<pre><code class="python">#IMU
-HAVE_IMU = True
-IMU_SENSOR = 'mpu9250'          # (mpu6050|mpu9250)
-IMU_DLP_CONFIG = 3
-</code></pre>
-
-<p><code>IMU_SENSOR</code> can be either <code>mpu6050</code> or <code>mpu9250</code> based on the sensor you are using.</p>
-<p><code>IMU_DLP_CONFIG</code> allows to change the digital lowpass filter settings for your IMU. Lower frequency settings (see below) can filter high frequency noise at the expense of increased latency in IMU sensor data.
-Valid settings are from 0 to 6:</p>
-<ul>
-<li><code>0</code> 250Hz</li>
-<li><code>1</code> 184Hz</li>
-<li><code>2</code> 92Hz</li>
-<li><code>3</code> 41Hz</li>
-<li><code>4</code> 20Hz </li>
-<li><code>5</code> 10Hz</li>
-<li><code>6</code> 5Hz</li>
-</ul>
-<h3 id="notes-on-mpu9250">Notes on MPU9250</h3>
-<p>At startup the MPU9250 driver performs calibration to zero accel and gyro bias. Usually the process takes less than 10 seconds, and in that time avoid moving or touching the car.
-Please place the car on the ground before starting Donkey.</p>
               
             </div>
           </div>
@@ -249,10 +211,10 @@ Please place the car on the ground before starting Donkey.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../oled/" class="btn btn-neutral float-right" title="OLED">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../voice_control/" class="btn btn-neutral float-right" title="Voice Control">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../stores/" class="btn btn-neutral" title="Stores"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../imu/" class="btn btn-neutral" title="IMU"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -280,10 +242,10 @@ Please place the car on the ground before starting Donkey.</p>
           <a href="https://github.com/autorope/donkeycar/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../stores/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../imu/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../oled/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../voice_control/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

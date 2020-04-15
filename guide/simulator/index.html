@@ -78,11 +78,11 @@
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Donkey Simulator.</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#installation-video">Installation Video:</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#my-virtual-donkey">My Virtual Donkey</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#install">Install</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#installation-video">Installation Video:</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#drive">Drive</a>
     </li>
@@ -191,6 +191,12 @@
                 <h1 id="donkey-simulator">Donkey Simulator</h1>
 <p>The <a href="https://github.com/tawnkramer/gym-donkeycar">Donkey Gym</a> project is a OpenAI gym wrapper around the <a href="https://github.com/tawnkramer/sdsandbox/tree/donkey">Self Driving Sandbox</a> donkey simulator (<code>sdsandbox</code>). When building the sim from source, checkout the <code>donkey</code> branch of the <code>sdsandbox</code> project. </p>
 <p>The simulator is built on the the <a href="https://unity.com/">Unity</a> game platform, uses their internal physics and graphics, and connects to a donkey Python process to use our trained model to control the simulated Donkey.</p>
+<h2 id="installation-video">Installation Video:</h2>
+<p>Here's some videos to help you through the installation.</p>
+<p>Linux:
+https://youtu.be/J6Ll5Obtuxk</p>
+<p>Windows:
+https://youtu.be/wqQMmHVT8qw</p>
 <h2 id="my-virtual-donkey">My Virtual Donkey</h2>
 <p>There are many ways to use the simulator, depending on your goals. You can use the simulator to get to know and use the standard Donkeycar drive/train/test cycle by treating it as virtual hardware. You will collect data, drive, and train using the <strong>same commands</strong> as if you were using a real robot. We will walk through that use-case first.</p>
 <p><img alt="sim_screen_shot" src="../../assets/sim_screen_shot.png" /></p>
@@ -225,8 +231,6 @@ DONKEY_GYM_ENV_NAME = &quot;donkey-generated-track-v0&quot;
 <blockquote>
 <p>Note: your path to the executable will vary depending on platform and user.</p>
 </blockquote>
-<h2 id="installation-video">Installation Video:</h2>
-<p>https://youtu.be/J6Ll5Obtuxk</p>
 <h2 id="drive">Drive</h2>
 <p>You may use all the normal commands to manage.py at this point. Such as:</p>
 <pre><code class="bash">python manage.py drive

@@ -92,6 +92,40 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#sample-driving-data">Sample Driving Data</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#api">API</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#get-protocol-version">Get Protocol Version</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#protocol-version">Protocol Version</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#scene-selection-ready">Scene Selection Ready</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#get-scene-names">Get Scene Names</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#scene-names">Scene Names</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#load-scene">Load Scene</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#scene-loaded">Scene Loaded</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#car-loaded">Car Loaded</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#car-config">Car Config</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#camera-config">Camera Config</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#control-car">Control Car</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#telemetry">Telemetry</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#reset-car">Reset Car</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#exit-scene">Exit Scene</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#quit-app">Quit App</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../virtual_race_league/">Virtual Race League.</a>
@@ -257,6 +291,231 @@ Modify myconfig.py to indicate your joystick model and use the <code>--js</code>
 <p>Then navigate to web control page. Set <code>Mode and Pilot</code> to <code>Local Pilot(d)</code>. The car should start driving.</p>
 <h2 id="sample-driving-data">Sample Driving Data</h2>
 <p>Here's some sample driving data to get you started. <a href="https://drive.google.com/open?id=1A5sTSddFsf494UDtnvYQBaEPYX87_LMp">Download this</a> and unpack it into your data dir. This should train to a slow but stable driver.</p>
+<hr />
+<h2 id="api">API</h2>
+<p>Here's some info on the api to talk to the sim server. Make a TCP client and connect to port 9091 on whichever host the sim is running. The server sends and recieves UTF-8 encoded JSON packets. Each message must have a "msg_type" field. The sim will end all JSON packets with a newline character for termination. You don't have to end each packet with a newline when sending to the server. But if it gets too many messages too quickly it may have troubles. Check the player log file for JSON parse errors if you are having troubles.</p>
+<hr />
+<h3 id="get-protocol-version">Get Protocol Version</h3>
+<p>Client=&gt;Sim. Ask for the version of the protocol. Will help know when changes are made to these messages.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;get_protocol_version&quot; 
+    }
+</code></pre>
+
+<hr />
+<h3 id="protocol-version">Protocol Version</h3>
+<p>Sim=&gt;Client. Reply for the version of the protocol. Currently at version 2.</p>
+<p>Fields: </p>
+<ul>
+<li><em>version</em> : string integer</li>
+</ul>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;protocol_version&quot;,
+    &quot;version&quot; : &quot;2&quot;,
+    }
+</code></pre>
+
+<hr />
+<h3 id="scene-selection-ready">Scene Selection Ready</h3>
+<p>Sim=&gt;Client. When the Menu scene is finished loading this will be sent. After this point, the sim can honor the Scene Loading message.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;scene_selection_ready&quot; 
+    }
+</code></pre>
+
+<hr />
+<h3 id="get-scene-names">Get Scene Names</h3>
+<p>Client=&gt;Sim. Ask names of the scnee you can load.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;get_scene_names&quot; 
+    }
+</code></pre>
+
+<hr />
+<h3 id="scene-names">Scene Names</h3>
+<p>Sim=&gt;Client. Sim will reply with list of scene names.</p>
+<p>Fields: </p>
+<ul>
+<li><em>scene_names</em> : array of scene names</li>
+</ul>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;scene_names&quot; 
+    &quot;scene_names&quot; : [ &quot;generated_road&quot;, &quot;warehouse&quot;, &quot;sparkfun_avc&quot;. &quot;generated_track&quot; ]
+    }
+</code></pre>
+
+<hr />
+<h3 id="load-scene">Load Scene</h3>
+<p>Client=&gt;Sim. Asks the sim to load one of 4 scenes from the Menu screen.</p>
+<p>Fields: </p>
+<p><em>scene_name</em> : <strong>generated_road | warehouse | sparkfun_avc | generated_track</strong> ( or whatever list the sim returns from get_scene_names)</p>
+<p>Example:</p>
+<pre><code class="bash">    {
+        &quot;msg_type&quot; : &quot;load_scene&quot;,
+        &quot;scene_name&quot; : &quot;generated_track&quot;
+    }
+</code></pre>
+
+<hr />
+<h3 id="scene-loaded">Scene Loaded</h3>
+<p>Sim=&gt;Client. Once scene is loaded, in reply, you will get a:</p>
+<pre><code class="bash">    {
+        &quot;msg_type&quot; : &quot;scene_loaded&quot;
+    }
+</code></pre>
+
+<hr />
+<h3 id="car-loaded">Car Loaded</h3>
+<p>Sim=&gt;Client. Once the sim finishes loading your car, it sends this message. The car is loaded for you automatically once the scene is loaded with an active client. Or a client make a connection.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;car_loaded&quot; 
+    }
+</code></pre>
+
+<hr />
+<h3 id="car-config">Car Config</h3>
+<p>Client=&gt;Sim. Once loaded, you may configure your car visual details</p>
+<p>Fields: </p>
+<ul>
+<li><em>body_style</em> :  <strong>donkey | bare | car01</strong></li>
+<li><em>body_r</em> :  string value of integer between 0-255</li>
+<li><em>body_g</em> :  string value of integer between 0-255</li>
+<li><em>body_b</em> :  string value of integer between 0-255</li>
+<li><em>car_name</em> :  string value car name to display over car. Newline accepted for multi-line.</li>
+<li><em>font_size</em> :  string value of integer between 10-100 to set size of car name text</li>
+</ul>
+<p>Example:</p>
+<pre><code class="bash">    {
+        &quot;msg_type&quot; : &quot;car_config&quot;,
+        &quot;body_style&quot; : &quot;car01&quot;,
+        &quot;body_r&quot; : &quot;128&quot;,
+        &quot;body_g&quot; : &quot;0&quot;,
+        &quot;body_b&quot; : &quot;255&quot;,
+        &quot;car_name&quot; : &quot;Your Name&quot;,
+        &quot;font_size&quot; : &quot;100&quot;
+    }
+</code></pre>
+
+<hr />
+<h3 id="camera-config">Camera Config</h3>
+<p>Client=&gt;Sim. Once the scene is loaded, you may configure your car camera sensor details</p>
+<p>Fields: </p>
+<ul>
+<li><em>fov</em> :  string value of float between 10-200. Sets the camera field of view in degrees.</li>
+<li><em>fish_eye_x</em> :  string value of float between 0-1. Causes distortion warping in x axis.</li>
+<li><em>fish_eye_y</em> :  string value of float between 0-1. Causes distortion warping in y axis.</li>
+<li><em>img_w</em> :  string value of integer between 16-512. Sets camera sensor image width.</li>
+<li><em>img_h</em> :  string value of integer between 16-512. Sets camera sensor image height.</li>
+<li><em>img_d</em> :  string value of integer 1 or 3. Sets camera sensor image depth. In case of 1, you get 3 channels but all identicle with greyscale conversion done on the sim.</li>
+<li><em>img_enc</em> :  Image format of data <strong>JPG | PNG | TGA</strong></li>
+<li><em>offset_x</em> : string value of float. Moves the camera left and right axis.</li>
+<li><em>offset_y</em> : string value of float. Moves the camera up and down.</li>
+<li><em>offset_z</em> : string value of float. Moves the camera forward and back.</li>
+<li><em>rot_x</em> : string value of float. Degrees. Rotates camera around X axis.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;cam_config&quot;,
+    &quot;fov&quot; : &quot;150&quot;, 
+    &quot;fish_eye_x&quot; : &quot;1.0&quot;,
+    &quot;fish_eye_y&quot; : &quot;1.0&quot;,
+    &quot;img_w&quot; : &quot;255&quot;,
+    &quot;img_h&quot; : &quot;255&quot;,
+    &quot;img_d&quot; : &quot;1&quot;,
+    &quot;img_enc&quot; : &quot;PNG&quot;,
+    &quot;offset_x&quot; : &quot;0.0&quot;,
+    &quot;offset_y&quot; : &quot;3.0&quot;,
+    &quot;offset_z&quot; : &quot;0.0&quot;,
+    &quot;rot_x&quot; : &quot;90.0&quot;
+    }
+</code></pre>
+
+<hr />
+<h3 id="control-car">Control Car</h3>
+<p>Client=&gt;Sim. Control throttle and steering.</p>
+<p>Fields:</p>
+<ul>
+<li><em>steering</em> :  string value of float between -1 to 1. Maps to full left or right, 16 deg from center.</li>
+<li><em>throttle</em> :  string value of float between -1 to 1. Full forward or reverse torque to wheels.</li>
+<li><em>brake</em> :  string value of float between 0 to 1.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;control&quot;,
+    &quot;steering&quot; : &quot;0.0&quot;,
+    &quot;throttle&quot; : &quot;0.3&quot;,
+    &quot;brake&quot; : &quot;0.0&quot;
+    }
+</code></pre>
+
+<hr />
+<h3 id="telemetry">Telemetry</h3>
+<p>Sim=&gt;Client. The sim sends this message containing camera image and details about vehicle state. These come at a regular rate set in the sim. Usually about 20 HZ.</p>
+<p>Fields: </p>
+<ul>
+<li><em>steering_angle</em> :  Last steering applied. Why not just steering like control? idk.</li>
+<li><em>throttle</em> :  Last throttle applied.</li>
+<li><em>speed</em> :  magnitude of linear velocity.</li>
+<li><em>image</em> :  a BinHex encoded binary image. Use PIL.Image.open(BytesIO(base64.b64decode(imgString)))</li>
+<li><em>hit</em> :  name of the last object struck. Or None if no object hit.</li>
+<li><em>pos_x</em> :  x world coordinate of vehicle.</li>
+<li><em>pos_y</em> :  y world coordinate of vehicle.</li>
+<li><em>pos_z</em> :  z world coordinate of vehicle.</li>
+<li><em>cte</em> :  Cross track error. The distance from the car to the path in the center of the right most lane.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;telemetry&quot;, 
+    &quot;steering_angle&quot; : &quot;0.0&quot;, 
+    &quot;throttle&quot; : &quot;0.0&quot;, 
+    &quot;speed&quot; : &quot;1.0&quot;, 
+    &quot;image&quot; : &quot;0x123...&quot;, 
+    &quot;hit&quot; : &quot;None&quot;, 
+    &quot;pos_x&quot; : &quot;0.0&quot;, 
+    &quot;pos_y&quot; : &quot;0.0&quot;, 
+    &quot;pos_z&quot; : &quot;0.0&quot;, 
+    &quot;cte&quot; : &quot;0.5&quot;, 
+    }
+</code></pre>
+
+<hr />
+<h3 id="reset-car">Reset Car</h3>
+<p>Client=&gt;Sim. Return the car to the start point.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;reset_car&quot; 
+    }
+</code></pre>
+
+<hr />
+<h3 id="exit-scene">Exit Scene</h3>
+<p>Client=&gt;Sim. Leave the scene and return to the main menu screen.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;exit_scene&quot; 
+    }
+</code></pre>
+
+<h3 id="quit-app">Quit App</h3>
+<p>Client=&gt;Sim. Close the sim executable.</p>
+<p>Fields: <em>None</em></p>
+<p>Example:</p>
+<pre><code class="bash">    {
+    &quot;msg_type&quot; : &quot;quit_app&quot; 
+    }
+</code></pre>
               
             </div>
           </div>

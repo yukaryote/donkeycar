@@ -210,7 +210,7 @@ your car with <code>Ctrl-c</code> in the ssh session for your car.</li>
 to a PC computer to train. The Jetson nano is more powerful, but still quite slow to train. If desired, skip this transfer step and train on the Nano.</p>
 <p>In a new terminal session on your host PC use rsync to copy your cars
 folder from the Raspberry Pi.</p>
-<pre><code class="bash">rsync -rv --show-progress --partial pi@&lt;your_pi_ip_address&gt;:~/mycar/data/  ~/mycar/data/
+<pre><code class="bash">rsync -rv --progress --partial pi@&lt;your_pi_ip_address&gt;:~/mycar/data/  ~/mycar/data/
 </code></pre>
 
 <h2 id="train-a-model">Train a model</h2>
@@ -236,7 +236,7 @@ folder from the Raspberry Pi.</p>
 <p>Use rsync again to move your trained model pilot back to your car.</p>
 </li>
 </ul>
-<pre><code class="bash">rsync -rv --show-progress --partial ~/mycar/models/ pi@&lt;your_ip_address&gt;:~/mycar/models/
+<pre><code class="bash">rsync -rv --progress --partial ~/mycar/models/ pi@&lt;your_ip_address&gt;:~/mycar/models/
 </code></pre>
 
 <ul>

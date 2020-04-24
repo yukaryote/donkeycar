@@ -189,7 +189,7 @@
 <h2 id="about-the-sim-server">About the Sim server</h2>
 <p>We are using the <a href="https://github.com/tawnkramer/sdsandbox">SDSandbox</a> open source project as the racing sim. This creates a 3d environment using <a href="https://unity.com/">Unity</a> game creation tool. It uses <a href="https://developer.nvidia.com/physx-sdk">NVidia PhysX</a> open source physics engine to simulate 4 wheeled vehicle dynamics. This sim also acts as a server, listening on TCP port 9091. This sends and receives JSON packets. More on the API later.</p>
 <p>We use an OpenAI GYM style wrapper to interface with the server. The project for this wrapper is <a href="https://github.com/tawnkramer/gym-donkeycar">gym-donkeycar</a>.</p>
-<p>You may build the server from the source project above, but <a href="https://github.com/tawnkramer/gym-donkeycar/releases/tag/v2020.4">pre-built binaries</a> for Ubuntu, Mac, and Windows. This has been tested on Ubuntu 18.04, Mac 10.13, and Windows 10.</p>
+<p>You may build the server from the source project above, but <a href="https://github.com/tawnkramer/gym-donkeycar/releases">pre-built binaries</a> for Ubuntu, Mac, and Windows. This has been tested on Ubuntu 18.04, Mac 10.13, and Windows 10.</p>
 <h2 id="setup-for-donkeycar-users">Setup for Donkeycar users</h2>
 <p>If you are using the donkeycar framework to race, you can use follow the guide to <a href="/guide/simulator/">setup the simulator</a>. If visuals directions help out, checkout the <a href="https://youtu.be/wqQMmHVT8qw">Windows Sim Setup Screen-Cast on Youtube</a>. Use this to practice before the race. When it comes time to race, modify your myconfig.py to have these two changes:</p>
 <pre><code>DONKEY_SIM_PATH = &quot;remote&quot;
@@ -204,7 +204,7 @@ SIM_HOST = &quot;trainmydonkey.com&quot;
 <p>If you would like to roll your own client, we have some python code to get you started. </p>
 <ul>
 <li>
-<p>You will first want to download the sim <a href="https://github.com/tawnkramer/gym-donkeycar/releases/tag/v2020.4">pre-built binary</a> for your platform. Extract that where you like.</p>
+<p>You will first want to download the sim <a href="https://github.com/tawnkramer/gym-donkeycar/releases">pre-built binary</a> for your platform. Extract that where you like.</p>
 </li>
 <li>
 <p>Then clone the gym-donkeycar python project and install. If you are using a virtual environment, don't forget to activate it first. </p>

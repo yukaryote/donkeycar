@@ -244,7 +244,7 @@ https://youtu.be/wqQMmHVT8qw</p>
 <pre><code class="bash">cd ~/projects
 git clone https://github.com/tawnkramer/gym-donkeycar
 conda activate donkey
-pip install -e gym-donkeycar
+pip install -e .[gym-donkeycar]
 </code></pre>
 
 <ul>
@@ -263,7 +263,10 @@ DONKEY_GYM_ENV_NAME = &quot;donkey-generated-track-v0&quot;
 </code></pre>
 
 <blockquote>
-<p>Note: your path to the executable will vary depending on platform and user.</p>
+<p>Note: your path to the executable will vary depending on platform and user.
+ Windows: DonkeySimWin/donkey_sim.exe
+ Mac OS: DonkeySimMac/donkey_sim.app/Contents/MacOS/sdsim
+ Linux: DonkeySimLinux/donkey_sim.x86_64</p>
 </blockquote>
 <h2 id="drive">Drive</h2>
 <p>You may use all the normal commands to manage.py at this point. Such as:</p>

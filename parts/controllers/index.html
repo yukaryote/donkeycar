@@ -95,9 +95,7 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#these-joysticks-are-known-to-work">These joysticks are known to work:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#customizing-or-adding-a-new-controller-type">Customizing or Adding a New Controller Type</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#change-to-configpy-or-run-with-js">Change to config.py or run with --js</a>
+    <li class="toctree-l3"><a class="reference internal" href="#change-myconfigpy-or-run-with-js">Change myconfig.py or run with --js</a>
     </li>
         </ul>
     </li>
@@ -137,7 +135,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#discovering-modifying-button-and-axis-mappings-for-game-controllers">Discovering / Modifying Button and Axis Mappings for Game Controllers</a>
+    <li class="toctree-l2"><a class="reference internal" href="#creating-a-new-or-custom-game-controller">Creating a New or Custom Game Controller</a>
     </li>
     </ul>
                     </li>
@@ -251,15 +249,14 @@
 <p>These can be enabled by finding the CONTROLLER_TYPE in your myconfig.py and setting it to the correct string identifier ( after disabling the comment ).</p>
 <p>These can be used plugged in with a USB cable. It's been much more convenient to setup Bluetooth for a wireless control.</p>
 <p>There are controller specific setup details below.</p>
-<h3 id="customizing-or-adding-a-new-controller-type">Customizing or Adding a New Controller Type</h3>
 <blockquote>
-<p>Note: If are having troubles getting your controller to work, try this <a href="/utility/donkey/#joystick-wizard">Joystick Wizard</a>. This can help customize your buttons and axis inputs as well.</p>
+<p>Note: If you have a controller that is not listed below, or you are having troubles getting your controller to work or you want to map your controller differently, see <a href="./#creating-a-new-or-custom-game-controller">Creating a New or Custom Game Controller</a>. </p>
 </blockquote>
-<h3 id="change-to-configpy-or-run-with-js">Change to config.py or run with --js</h3>
+<h3 id="change-myconfigpy-or-run-with-js">Change myconfig.py or run with --js</h3>
 <pre><code class="bash">python manage.py drive --js
 </code></pre>
 
-<p>Will enable driving with the joystick. This disables the live preview of the camera and the web page features. If you modify config.py to make <code>USE_JOYSTICK_AS_DEFAULT = True</code>, then you do not need to run with the <code>--js</code>.</p>
+<p>Will enable driving with the joystick. This disables the live preview of the camera and the web page features. If you modify myconfig.py to make <code>USE_JOYSTICK_AS_DEFAULT = True</code>, then you do not need to run with the <code>--js</code>.</p>
 <h2 id="ps3-controller">PS3 Controller</h2>
 <h3 id="bluetooth-setup">Bluetooth Setup</h3>
 <p>Follow <a href="https://pythonhosted.org/triangula/sixaxis.html">this guide</a>. You can ignore steps past the 'Accessing the SixAxis from Python' section. I will include steps here in case the link becomes stale.</p>
@@ -394,24 +391,8 @@ quit
 </code></pre>
 
 <p>Now that your controller is trusted, it should automatically connect with your Raspberry Pi when they are both turned on.  If your controller fails to connect, run the bluetoothctl steps again to reconnect.</p>
-<h2 id="discovering-modifying-button-and-axis-mappings-for-game-controllers">Discovering / Modifying Button and Axis Mappings for Game Controllers</h2>
-<p>To discover and modify your default button mappings (for your controllers) you can use the <code>Joystick</code> class defined in <code>donkeycar.parts.controller</code>.</p>
-<p>After setting up <code>Donkey</code> and activating your <code>virtualenv</code> you can do the following.</p>
-<p>First launch <code>python</code> shell session.</p>
-<pre><code class="python">from donkeycar.parts.controller import Joystick
-
-joystick = Joystick() # uses the connected joystick at /dev/input/js0
-
-joystick.init() # Initialize
-
-joystick.show_map() # Will give you a list of axes and buttons detected.
-
-# Now you can use the controller and check for the outputs. This will
-# tell you which buttons and axes are active when you are using the
-# controller.
-while True:
-    joystick.poll()
-</code></pre>
+<h2 id="creating-a-new-or-custom-game-controller">Creating a New or Custom Game Controller</h2>
+<p>To discover or modify the button and axis mappings for your controller, you can use the <a href="/utility/donkey/#joystick-wizard">Joystick Wizard</a>. The Joystick Wizard will write a custom controller named 'my_joystick.py' to your mycar folder.  To use the custom controller, set <code>CONTROLLER_TYPE="custom"</code> in your myconfig.py.</p>
               
             </div>
           </div>

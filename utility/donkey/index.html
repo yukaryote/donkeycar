@@ -116,6 +116,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#check-tub">Check Tub</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#augment-tub">Augment Tub</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#histogram">Histogram</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#plot-predictions">Plot Predictions</a>
@@ -282,6 +284,16 @@ See also <a href="/guide/calibrate/">more information.</a></p>
 <li>It will print the records that throw an exception while reading</li>
 <li>The optional <code>--fix</code> will delete records that have problems</li>
 </ul>
+<h2 id="augment-tub">Augment Tub</h2>
+<p>This command allows you to perform the data augmentation on a tub or set of tubs directly. The augmentation is also available in training via the <code>--aug</code> flag. Preprocessing the tub can speed up the training as the augmentation can take some time. Also you can train with the unmodified tub and the augmented tub joined together. </p>
+<p>Usage:</p>
+<pre><code class="bash">donkey tubaugment &lt;tub_path&gt; [--inplace]
+</code></pre>
+
+<ul>
+<li>Run on the host computer or the robot</li>
+<li>The optional <code>--inplace</code> will replace the original tub images when provided. Otherwise <code>tub_XY_YY-MM-DD</code> will be copied to a new tub <code>tub_XX_aug_YY-MM-DD</code> and the original data remains unchanged</li>
+</ul>
 <h2 id="histogram">Histogram</h2>
 <p>This command will show a pop-up window showing the histogram of record values in a given tub.</p>
 <blockquote>
@@ -357,35 +369,17 @@ on the host that are deleted on the pi. This allows your PS3 Triangle edits to a
 </code></pre>
 
 <h2 id="joystick-wizard">Joystick Wizard</h2>
-<p>This command line wizard will walk you through the steps to use your joystick.</p>
+<p>This command line wizard will walk you through the steps to create a custom/customized controller.  </p>
 <p>Usage:</p>
 <pre><code class="bash">donkey createjs
 </code></pre>
 
 <ul>
-<li>This command may be run from <code>~/mycar</code> dir</li>
-<li>Run on the pi</li>
-<li>First make sure the OS can access your device. The utility <code>jstest</code> can be useful here. Installed via: <code>sudo apt install joystick</code></li>
-<li>Debian commonly creates the joystick device file at <code>/dev/input/js0</code>. If not, find out where.</li>
-<li>Run the command <code>donkey createjs</code> and it will create a file, by default my_joystick.py. Drop that next to your manage.py</li>
-<li>Modify manage.py to replace:</li>
+<li>Run the command from your <code>~/mycar</code> dir</li>
+<li>First make sure the OS can access your device. The utility <code>jstest</code> can be useful here. Installed via: <code>sudo apt install joystick</code>  You must pass this utility the path to your controller's device.  Typically this is <code>/dev/input/js0</code>  However, it if is not, you must find the correct device path and provide it to the utility.  You will need this for the createjs command as well.</li>
+<li>Run the command <code>donkey createjs</code> and it will create a file named my_joystick.py in your <code>~/mycar</code> folder, next to your manage.py</li>
+<li>Modify myconfig.py to set <code>CONTROLLER_TYPE="custom"</code> to use your my_joystick.py controller</li>
 </ul>
-<pre><code class="python">    from donkeycar.parts.controller import get_js_controller
-
-    ctr = get_js_controller(cfg)
-</code></pre>
-
-<p>with</p>
-<pre><code class="python">    from my_joystick import MyJoystickController
-
-    ctr = MyJoystickController(throttle_dir=cfg.JOYSTICK_THROTTLE_DIR,
-                                throttle_scale=cfg.JOYSTICK_MAX_THROTTLE,
-                                steering_scale=cfg.JOYSTICK_STEERING_SCALE,
-                                auto_record_on_throttle=cfg.AUTO_RECORD_ON_THROTTLE)
-
-    ctr.set_deadzone(cfg.JOYSTICK_DEADZONE)
-</code></pre>
-
 <h2 id="visualize-cnn-filter-activations">Visualize CNN filter activations</h2>
 <p>Shows feature maps of the provided image for each filter in each of the convolutional layers in the model provided. Debugging tool to visualize how well feature extraction is performing.</p>
 <p>Usage:</p>
